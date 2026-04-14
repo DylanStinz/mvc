@@ -14,6 +14,11 @@ def main(page: ft.Page):
             page.views.append(LoginView(page, auth_ctrl))
         elif page.route == "/dashboard":
             page.views.append(DashboardView(page, auth_ctrl, task_ctrl))
+            
+        if not page.views:
+            page.views.append(
+                ft.View("/", [ft.Text("error Ruta no encontrada")])
+            )
         page.update()
         
     page.on_route_change = route_change

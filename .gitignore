@@ -9,3 +9,12 @@ wheels/
 # Virtual environments
 .venv
 .env
+
+[project.scripts]
+
+app= "main:main"
+
+[tool.uv]
+package = true
+[tool.setuptools.package-dir]
+""="src"
