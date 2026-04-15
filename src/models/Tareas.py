@@ -1,9 +1,9 @@
 from .database import Database
 
-class TareasModel:
+class TareaModel:
     def __init__(self):
         self.db = Database()
-    def listar_por_usuario(sel, id_usuario):
+    def listar_por_usuario(self, id_usuario):
         conn = self.db.get_connection()
         cursor = conn.cursor(dictionary=True)
         cursor.execute("SELECT * FROM tareas WHERE id_usuario = %s", (id_usuario,))
