@@ -19,8 +19,19 @@ def start(page: ft.Page):
                 ft.View("/",[ft.Text("Error ruta no encontrada o vivista vacia")]))
             
         page.update()
+    def view_pop(e):
+        if len(page.views)>1:
+            page.views.pop()
+            top_view = page.views[-1]
+            page.go(top_view.route)
+            
     page.on_route_change = route_change
-    page.go("/")
+    page.on_view_pop = view_pop
+    print("Iniciando aplicación...")
+    if page.route=="/":
+        route_change(None)
+    else:
+        page.go("/")
 def main():
     ft.app(target=start)
 if __name__ == "__main__":
