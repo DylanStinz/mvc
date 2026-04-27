@@ -10,8 +10,15 @@ class AuthController:
         try:
             nuevo_usuario = UsuarioSchema(nombre=nombre, email=email, password=password)
             success = self.model.registrar(nuevo_usuario)
-            return success ,"Usuario registrado exitosamente." 
+            return success, "Usuario registrado exitosamente." 
         except ValidationError as e:
             return False, e.errors()[0]['msg']
-            
-    
+
+    def login(self, email, password):
+        user = self.model.validar_login(email, password)
+   
+        
+        if not user:
+            return None, "Credenciales incorrectas"
+
+        return user, "Login exitoso"
