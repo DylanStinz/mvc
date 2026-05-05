@@ -6,19 +6,18 @@ class UsuarioModel:
         self.db = Database()
 
     def registrar(self, usuario_data):
-        salt = bcrypt.gensalt()
-        hashed_pw = bcrypt.hashpw(
-            usuario_data.password.encode('utf-8'),
-            salt
-        )
-
         conn = self.db.get_connection()
         cursor = conn.cursor()
 
         try:
             cursor.execute(
-                "INSERT INTO usuario (nombre, email, password) VALUES (%s, %s, %s)",
-                (usuario_data.nombre, usuario_data.email, hashed_pw.decode('utf-8'))
+                "INSERT INTO usuario (nombre, apellido, email, password) VALUES (%s, %s, %s, %s)",
+                (
+                    usuario_data.nombre,
+                    usuario_data.apellido,  # 👈 agregado
+                    usuario_data.email,
+                    usuario_data.password   # 👈 YA VIENE HASHEADO
+                )
             )
             conn.commit()
             return True

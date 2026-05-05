@@ -3,6 +3,7 @@ from controllers.UserController import AuthController
 from controllers.TareaController import TareaController
 from views.loginView import LoginView
 from views.dashboardView import DashboardView
+from views.registerView import RegisterView  # 👈 agregado
 
 def start(page: ft.Page):
     auth_ctrl = AuthController()
@@ -13,8 +14,13 @@ def start(page: ft.Page):
 
         if page.route == "/":
             page.views.append(LoginView(page, auth_ctrl))
+
+        elif page.route == "/register":  # 👈 agregado
+            page.views.append(RegisterView(page, auth_ctrl))
+
         elif page.route == "/dashboard":
             page.views.append(DashboardView(page, task_ctrl))
+
         else:
             page.views.append(
                 ft.View("/", [ft.Text("Error: ruta no encontrada o vista vacía")])
