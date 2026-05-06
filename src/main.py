@@ -3,7 +3,7 @@ from controllers.UserController import AuthController
 from controllers.TareaController import TareaController
 from views.loginView import LoginView
 from views.dashboardView import DashboardView
-from views.registerView import RegisterView  # 👈 agregado
+from views.registerView import RegisterView 
 
 def start(page: ft.Page):
     auth_ctrl = AuthController()
@@ -15,7 +15,7 @@ def start(page: ft.Page):
         if page.route == "/":
             page.views.append(LoginView(page, auth_ctrl))
 
-        elif page.route == "/register":  # 👈 agregado
+        elif page.route == "/register": 
             page.views.append(RegisterView(page, auth_ctrl))
 
         elif page.route == "/dashboard":

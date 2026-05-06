@@ -33,4 +33,11 @@ class AuthController:
         if not user:
             return None, "Credenciales incorrectas"
 
-        return user, "Login exitoso"
+       
+        usuario = {
+            "id": user["id_usuario"],  
+            "nombre": user["nombre"],
+            "email": user["email"]
+        }
+
+        return usuario, "Login exitoso"

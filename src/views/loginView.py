@@ -31,8 +31,9 @@ def LoginView(page, auth_controller):
         )
 
         if user:
-            # ✅ AQUÍ ESTÁ EL CAMBIO
-            page.session["user"] = user
+            # ✅ Forma correcta para tu versión
+            page.session.user = user
+
             page.go("/dashboard")
         else:
             page.snack_bar = ft.SnackBar(ft.Text(msg))

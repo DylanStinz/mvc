@@ -14,9 +14,9 @@ class UsuarioModel:
                 "INSERT INTO usuario (nombre, apellido, email, password) VALUES (%s, %s, %s, %s)",
                 (
                     usuario_data.nombre,
-                    usuario_data.apellido,  # 👈 agregado
+                    usuario_data.apellido,  
                     usuario_data.email,
-                    usuario_data.password   # 👈 YA VIENE HASHEADO
+                    usuario_data.password   
                 )
             )
             conn.commit()

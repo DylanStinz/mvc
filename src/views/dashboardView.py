@@ -1,47 +1,58 @@
 import flet as ft
 
 def DashboardView(page, tarea_controller):
-    user = page.session.get("user")
+
+    user = getattr(page.session, "user", None)
+
+    if not user:
+        page.go("/")
+        return ft.View(route="/", controls=[])
+
     lista_tareas = ft.Column(scroll=ft.ScrollMode.ALWAYS, expand=True)
-    
+
     def refresh():
         lista_tareas.controls.clear()
-        for t in tarea_controller.obtener_tareas(user["id"]):
+        for t in tarea_controller.obtener_lista(user["id"]):
             lista_tareas.controls.append(
-                ft.Card(
-                    content=ft.Container(
-                        content=ft.ListTile(
-                            title=ft.Text(t["titulo"], weight=ft.FontWeight.BOLD),
-                            subtitle=ft.Text(f"{t['descripcion']}\nPrioridad: {t['prioridad']}"),
-                            trailing=ft.Badge(content=ft.Text(t["estado"]), bgcolor=ft.Colors.ORANGE_300)
-                        ), 
-                        padding=10
-                    )
-                )
+                ft.Text(t["titulo"]) 
             )
         page.update()
 
     txt_titulo = ft.TextField(label="Nueva Tarea", expand=True)
-    
+
     def add_task(e):
-        success, msg = tarea_controller.guardar_nueva(user["id"], txt_titulo.value, "", "Media", "trabajo")
+        success, msg = tarea_controller.guardar_nueva(
+            user["id"], txt_titulo.value, "", "Media", "trabajo"
+        )
         if success:
             txt_titulo.value = ""
             refresh()
-    
+
+
+    refresh()
+
     return ft.View(
-    "/dashboard",
-    controls=[
-        ft.AppBar(
-            title=ft.Text(f"Bienvenido, {user['nombre']}"),
-            actions=[ft.IconButton(ft.Icons.EXIT_TO_APP, on_click=lambda e: page.go("/login"))]
-        ),
-        ft.Column([
-            ft.Row([txt_titulo, ft.FloatingActionButton(icon=ft.Icons.ADD, on_click=add_task)]),
-            ft.Divider(),
-            ft.Text("Mis tareas pendientes", size=20, weight=ft.FontWeight.BOLD),
-            lista_tareas
-        ], expand=True, padding=20)
-    ],
-    on_open=lambda _: refresh()
-)
+        route="/dashboard",
+        controls=[
+            ft.AppBar(title=ft.Text(f"Bienvenido, {user['nombre']}")),
+            ft.Container(
+                padding=20,
+                content=ft.Column([
+                    ft.Row([
+                        txt_titulo,
+                        ft.FloatingActionButton(
+                            icon=ft.Icons.ADD,
+                            on_click=add_task
+                        )
+                    ]),
+                    ft.Divider(),
+                    lista_tareas
+                ], expand=True)
+            )
+        ]
+    )
+
+
+def logout(page):
+    page.session.user = None
+    page.go("/")

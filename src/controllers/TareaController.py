@@ -11,5 +11,6 @@ class TareaController:
         if not titulo:
             return False, "El título es obligatorio."
         
-        self.model.crear(id_usuario, titulo, desc, prio, clas)
+    
+        self.model.crear_tarea(id_usuario, titulo, desc)
         return True, "Tarea guardada."

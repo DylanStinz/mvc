@@ -23,7 +23,7 @@ def RegisterView(page, auth_controller):
         if ok:
             page.snack_bar = ft.SnackBar(ft.Text("Usuario registrado correctamente"))
             page.snack_bar.open = True
-            page.go("/")  # volver al login
+            page.go("/")  
         else:
             page.snack_bar = ft.SnackBar(ft.Text(msg))
             page.snack_bar.open = True
